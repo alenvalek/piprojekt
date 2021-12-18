@@ -3,10 +3,10 @@
       <v-form justify="center" align="center" class="mb-10">
          <v-row justify="center" class="mt-10">
             <v-col md="4" sm="9" xsm="9">
-               <h2 class="text-center">Kreirajte račun</h2>
+               <h2 class="text-center">Create an account</h2>
                <v-text-field
                   name="firstName"
-                  label="Ime"
+                  label="First Name"
                   type="text"
                   append-icon="mdi-account"
                   v-model="firstName"
@@ -14,7 +14,7 @@
                <v-text-field
                   name="lastName"
                   type="text"
-                  label="Prezime"
+                  label="Last Name"
                   append-icon="mdi-account"
                   v-model="lastName"
                ></v-text-field>
@@ -30,7 +30,7 @@
                      <template v-slot:activator="{ on, attrs }">
                         <v-text-field
                            v-model="date"
-                           label="Datum rođenja"
+                           label="Date Of Birth"
                            prepend-icon="mdi-calendar"
                            readonly
                            v-bind="attrs"
@@ -64,7 +64,7 @@
                <v-text-field
                   name="password"
                   type="password"
-                  label="Lozinka"
+                  label="Password"
                   required
                   append-icon="mdi-lock"
                   v-model="password"
@@ -72,7 +72,7 @@
                <v-text-field
                   name="password2"
                   type="password"
-                  label="Potvrdite Lozinku"
+                  label="Confirm Password"
                   required
                   append-icon="mdi-lock"
                   v-model="passwordConfirm"
@@ -81,26 +81,21 @@
                <v-checkbox v-model="checkbox">
                   <template v-slot:label>
                      <div>
-                        Prihvaćam
+                        I accept
                         <v-tooltip bottom>
                            <template v-slot:activator="{ on }">
-                              <a
-                                 target="_blank"
-                                 href="/tos"
-                                 @click.stop
-                                 v-on="on"
-                              >
-                                 uvjete korištenja
-                              </a>
+                              <router-link to="/tos" @click.stop v-on="on">
+                                 Terms Of Use
+                              </router-link>
                            </template>
-                           Otvara se u novom prozoru
+                           Opens in new window
                         </v-tooltip>
-                        i spreman sam se držati pravilnika.
+                        and agree to uphold them.
                      </div>
                   </template>
                </v-checkbox>
                <v-btn color="primary" @click.prevent="signUpUser"
-                  >Kreiraj račun</v-btn
+                  >Sign Up</v-btn
                >
             </v-col>
          </v-row>
@@ -108,10 +103,10 @@
       <v-row>
          <v-col cols="12" justify="center" align="center">
             <h2>
-               Već imaš račun?
+               Already have an account?
                <span
                   ><router-link style="text-decoration: none" to="/login"
-                     >Prijavi se</router-link
+                     >Sign In</router-link
                   ></span
                >
             </h2>

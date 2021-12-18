@@ -3,7 +3,7 @@
       <v-form>
          <v-row justify="center" class="mt-10">
             <v-col md="4" sm="9" xsm="9">
-               <h2 class="text-center">Ulogirajte se</h2>
+               <h2 class="text-center">Sign In</h2>
                <v-text-field
                   name="email"
                   type="email"
@@ -15,7 +15,7 @@
                <v-text-field
                   name="password"
                   type="password"
-                  label="Lozinka"
+                  label="Password"
                   required
                   append-icon="mdi-lock"
                   v-model="password"
@@ -24,19 +24,17 @@
          </v-row>
          <v-row>
             <v-col cols="12" justify="center" align="center" class="mb-5">
-               <v-btn color="primary" @click.prevent="signIn"
-                  >Ulogiraj se</v-btn
-               >
+               <v-btn color="primary" @click.prevent="signIn">Login</v-btn>
             </v-col>
          </v-row>
       </v-form>
       <v-row>
          <v-col cols="12" justify="center" align="center">
             <h2>
-               Nemaš račun?
+               Don't have an account yet?
                <span
                   ><router-link style="text-decoration: none" to="/login"
-                     >Prijavi se</router-link
+                     >Sign Up</router-link
                   ></span
                >
             </h2>

@@ -1,7 +1,18 @@
 import { initializeApp } from 'firebase/app';
 import 'firebase/auth';
-// import { getStorage } from 'firebase/storage';
-import { getFirestore, setDoc, doc } from 'firebase/firestore';
+import {
+   getFirestore,
+   setDoc,
+   doc,
+   deleteDoc,
+   getDoc,
+   collection,
+   addDoc,
+   onSnapshot,
+   query,
+   where,
+   updateDoc,
+} from 'firebase/firestore';
 import {
    getAuth,
    createUserWithEmailAndPassword,
@@ -9,7 +20,9 @@ import {
    onAuthStateChanged,
    updateProfile,
    signOut,
+   deleteUser,
 } from 'firebase/auth';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -24,6 +37,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth();
+const storage = getStorage();
 
 export {
    app,
@@ -37,4 +51,17 @@ export {
    getFirestore,
    setDoc,
    doc,
+   deleteDoc,
+   getDoc,
+   addDoc,
+   collection,
+   deleteUser,
+   onSnapshot,
+   storage,
+   ref,
+   uploadBytes,
+   getDownloadURL,
+   query,
+   where,
+   updateDoc,
 };

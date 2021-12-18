@@ -4,6 +4,9 @@ import Home from '../views/Home.vue';
 import SignUp from '../views/SignUp.vue';
 import SignIn from '../views/SignIn.vue';
 import Dashboard from '../views/Dashboard.vue';
+import Contracts from '../views/Contracts.vue';
+import EditProfile from '../views/EditProfile.vue';
+import Info from '../views/Info.vue';
 import store from '@/store';
 
 Vue.use(VueRouter);
@@ -21,22 +24,40 @@ const routes = [
       path: '/register',
       name: 'Register',
       component: SignUp,
-      meta: {
-         authReq: false,
-      },
    },
    {
       path: '/login',
       name: 'Login',
       component: SignIn,
-      meta: {
-         authReq: false,
-      },
    },
    {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
+      meta: {
+         authReq: true,
+      },
+   },
+   {
+      path: '/contracts',
+      name: 'Contracts',
+      component: Contracts,
+      meta: {
+         authReq: true,
+      },
+   },
+   {
+      path: '/edit-profile',
+      name: 'EditProfile',
+      component: EditProfile,
+      meta: {
+         authReq: true,
+      },
+   },
+   {
+      path: '/product/:pid',
+      name: 'Info',
+      component: Info,
       meta: {
          authReq: true,
       },

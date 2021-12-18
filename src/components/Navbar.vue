@@ -2,43 +2,38 @@
    <div>
       <v-app-bar v-if="!user" app dark color="purple darken-2">
          <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+         <v-btn text :to="{ name: 'Home' }" class="no-active">Rentara</v-btn>
          <v-spacer></v-spacer>
-         <v-toolbar-title
-            class="mx-5"
-            style="cursor:pointer;"
-            @click="$router.replace({ name: 'Login' })"
-            >Login</v-toolbar-title
+         <v-btn text class="mx-5 no-active" :to="{ name: 'Login' }"
+            >Login</v-btn
          >
-         <v-toolbar-title
-            class="mr-5"
-            style="cursor:pointer;"
-            @click="$router.replace({ name: 'Register' })"
-            >Registracija</v-toolbar-title
-         >
-         <v-toolbar-title
-            @click="$router.replace({ name: 'Home' })"
-            style="cursor:pointer"
-            >Rentara</v-toolbar-title
+         <v-btn
+            class="mr-5 no-active"
+            color="white black--text"
+            :to="{ name: 'Register' }"
+            >Sign Up</v-btn
          >
       </v-app-bar>
       <v-app-bar v-else app dark color="purple darken-2">
          <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+         <v-btn text :to="{ name: 'Home' }" class="no-active">Rentara</v-btn>
          <v-spacer></v-spacer>
-         <v-avatar class="mr-5" size="50"
-            ><img :src="user.photoURL" alt="John"
-         /></v-avatar>
-         <v-toolbar-title
-            class="mr-5"
-            style="cursor:pointer;"
-            @click="logoutUser"
-            >Log Out</v-toolbar-title
+         <v-badge
+            bordered
+            bottom
+            color="green accent-4"
+            dot
+            offset-x="32"
+            offset-y="10"
          >
+            <v-avatar class="mr-5" size="50"
+               ><img :src="user.photoURL" alt="John"/></v-avatar
+         ></v-badge>
+         <v-btn color="white" class="mr-5 black--text" @click="logoutUser"
+            ><span>Log out</span>
 
-         <v-toolbar-title
-            @click="$router.replace({ name: 'Home' })"
-            style="cursor:pointer;"
-            >Rentara</v-toolbar-title
-         >
+            <v-icon right>mdi-exit-to-app</v-icon>
+         </v-btn>
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -52,17 +47,21 @@
                      <v-icon>mdi-home</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title :to="{ name: 'Home' }"
-                     >Početna</v-list-item-title
+                     >Home</v-list-item-title
                   >
                </v-list-item>
 
-               <v-list-item
-                  :to="user ? { name: 'Dashboard' } : { name: 'Login' }"
-               >
+               <v-list-item v-if="user" :to="{ name: 'Dashboard' }">
                   <v-list-item-icon>
                      <v-icon>mdi-account</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-title>Račun</v-list-item-title>
+                  <v-list-item-title>Dashboard</v-list-item-title>
+               </v-list-item>
+               <v-list-item v-if="user" :to="{ name: 'Contracts' }">
+                  <v-list-item-icon>
+                     <v-icon>mdi-file-document-multiple</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Contracts</v-list-item-title>
                </v-list-item>
             </v-list-item-group>
          </v-list>
@@ -89,5 +88,3 @@ export default {
    },
 };
 </script>
-
-<style></style>
