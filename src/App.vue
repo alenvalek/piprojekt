@@ -2,7 +2,7 @@
    <v-app>
       <navbar />
       <v-main>
-         <router-view />
+         <router-view id="main"/>
       </v-main>
    </v-app>
 </template>
@@ -43,5 +43,9 @@ export default {
 ::-webkit-scrollbar-thumb {
    background: #541a6d;
    border-radius: 5px;
+}
+
+html {
+   scroll-behavior: smooth;
 }
 </style>

@@ -4,7 +4,9 @@
          <v-col cols="6">
             <Form />
          </v-col>
-         <v-col cols="6">TU DODATI NEKI FEATURE ILI PROSIRITI FORMU</v-col>
+         <v-col cols="6">
+            <v-btn color="primary" >Show favorites</v-btn>
+         </v-col>
       </v-row>
       <v-row wrap>
          <v-col cols="12" md="4" v-for="product in products" :key="product.id">

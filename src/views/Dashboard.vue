@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { deleteUser, auth, deleteDoc, db, doc } from '@/firebase';
+import { deleteUser, auth, getDoc, getDocs, deleteDoc, db, doc, collection, query, where } from '@/firebase';
 export default {
    name: 'Dashboard',
    data() {
@@ -130,8 +130,18 @@ export default {
       async deleteAccount() {
          const currentUser = auth.currentUser;
          const userID = currentUser.uid;
-         await deleteUser(currentUser);
-         await deleteDoc(doc(db, 'users', userID));
+         // await deleteUser(currentUser);
+         // await deleteDoc(doc(db, 'users', userID));
+         // await deleteDoc(doc(db, 'products'))
+
+         const userRef = await doc(db, 'users', userID)
+         const user = await getDoc(userRef)
+         const userProductsRef = await query(collection(db, 'products'), where("author.uid" == userID))
+
+         // userProducts.forEach(doc => {
+         //    console.log(doc.data())
+         // });
+         console.log(user.data())
       },
       previewImage() {
          if (this.selectedImage != null) {
