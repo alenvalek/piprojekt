@@ -27,6 +27,9 @@ Mentor: doc.dr.sc.Nikola Tanković
 * [VuetifyJS](https://vuetifyjs.com/en/)
 * [Sass](https://sass-lang.com/)
 
+### Zaduženja
+* Matej -> Dizajniranje stranice u figmi, pisanje class modela, izrada sign in i sign up komponente, edit profile
+* Alen -> Dizajniranje u figmi, pisanje use case modela, izrada home/favorite page-a, dashboard page-a, contracts page-a, firebase
 
 ### Prototip
 * Prototip izrađen u Figmi. [LINK](https://www.figma.com/proto/JWzjezNthwpFzqJJMWjIF5/Untitled?node-id=37%3A2&starting-point-node-id=37%3A2)
