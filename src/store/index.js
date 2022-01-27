@@ -14,6 +14,10 @@ export default new Vuex.Store({
 	state: {
 		user: null,
 		favorites: [],
+		alert: {
+			type: "",
+			msg: "",
+		},
 	},
 	mutations: {
 		updateUser(state, payload) {
@@ -22,6 +26,16 @@ export default new Vuex.Store({
 		updateFavorites(state, payload) {
 			state.favorites = payload;
 		},
+		notify(state, payload) {
+			const emptyAlert = {
+				type: "",
+				msg: "",
+			};
+			state.alert = payload;
+			setTimeout(() => {
+				state.alert = emptyAlert;
+			}, 5000);
+		},
 	},
 	getters: {
 		user(state) {
@@ -29,6 +43,9 @@ export default new Vuex.Store({
 		},
 		favorites(state) {
 			return state.favorites;
+		},
+		alert(state) {
+			return state.alert;
 		},
 	},
 	actions: {

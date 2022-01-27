@@ -36,30 +36,40 @@
 			</v-btn>
 		</v-app-bar>
 
-		<v-navigation-drawer v-model="drawer" absolute temporary>
+		<v-navigation-drawer v-model="drawer" fixed temporary width="20rem">
 			<v-list nav dense>
 				<v-list-item-group
 					v-model="group"
 					active-class="deep-purple--text text--accent-4"
 				>
-					<v-list-item to="/">
+					<v-list-item to="/" class="my-2 py-2">
 						<v-list-item-icon>
-							<v-icon>mdi-home</v-icon>
+							<v-icon large>mdi-home</v-icon>
 						</v-list-item-icon>
-						<v-list-item-title :to="{ name: 'Home' }">Home</v-list-item-title>
+						<v-list-item-title :to="{ name: 'Home' }" class="text-h6"
+							>Home</v-list-item-title
+						>
 					</v-list-item>
 
-					<v-list-item v-if="user" :to="{ name: 'Dashboard' }">
+					<v-list-item
+						v-if="user"
+						:to="{ name: 'Dashboard' }"
+						class="my-2 py-2"
+					>
 						<v-list-item-icon>
-							<v-icon>mdi-account</v-icon>
+							<v-icon large>mdi-account</v-icon>
 						</v-list-item-icon>
-						<v-list-item-title>Dashboard</v-list-item-title>
+						<v-list-item-title class="text-h6">Dashboard</v-list-item-title>
 					</v-list-item>
-					<v-list-item v-if="user" :to="{ name: 'Contracts' }">
+					<v-list-item
+						v-if="user"
+						:to="{ name: 'Contracts' }"
+						class="my-2 py-2"
+					>
 						<v-list-item-icon>
-							<v-icon>mdi-file-document-multiple</v-icon>
+							<v-icon large>mdi-file-document-multiple</v-icon>
 						</v-list-item-icon>
-						<v-list-item-title>Contracts</v-list-item-title>
+						<v-list-item-title class="text-h6">Contracts</v-list-item-title>
 					</v-list-item>
 				</v-list-item-group>
 			</v-list>
