@@ -96,11 +96,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="n in 10" :key="n">
-							<td>Some Product</td>
+						<tr v-for="listing in listings" :key="listing.id">
+							<td>{{ listing.title }}</td>
 							<td>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit.
-								Placeat, excepturi...
+								{{ listing.description }}
 							</td>
 							<td>No</td>
 							<td>
@@ -123,11 +122,8 @@
 
 <script>
 import {
-	deleteUser,
 	auth,
 	getDoc,
-	getDocs,
-	deleteDoc,
 	db,
 	doc,
 	collection,
@@ -139,6 +135,7 @@ import {
 	uploadBytes,
 	getDownloadURL,
 	deleteObject,
+	getDocs,
 } from "@/firebase";
 import { v4 as uuid } from "uuid";
 import { mapGetters, mapMutations } from "vuex";
@@ -150,13 +147,36 @@ export default {
 			selectedImage: null,
 			selectedImageURL: "",
 			isUploadingImage: false,
+			listings: [],
 		};
+	},
+	mounted() {
+		this.getMyProducts();
 	},
 	computed: {
 		...mapGetters({ user: "user", alert: "alert" }),
 	},
 	methods: {
 		...mapMutations({ notify: "notify" }),
+		async getMyProducts() {
+			try {
+				const productsRef = collection(db, "products");
+
+				const q = query(productsRef, where("author.uid", "==", this.user.uid));
+
+				const querySnapshot = await getDocs(q);
+
+				let listings = [];
+
+				querySnapshot.forEach((doc) => {
+					listings.push({ id: doc.id, ...doc.data() });
+				});
+
+				this.listings = listings;
+			} catch (error) {
+				console.log(error);
+			}
+		},
 		async deleteAccount() {
 			const currentUser = auth.currentUser;
 			const userID = currentUser.uid;
@@ -188,7 +208,9 @@ export default {
 				console.log(oldImage);
 				console.log("I'm here");
 				await deleteObject(oldImage);
-			} catch (error) {}
+			} catch (error) {
+				console.log("");
+			}
 
 			if (this.selectedImage) {
 				const imageName = uuid();
