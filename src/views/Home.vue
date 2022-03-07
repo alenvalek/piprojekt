@@ -18,6 +18,7 @@
 					:liked="randomShiet()"
 					:imageURL="product.imageURL"
 					:avgScore="product.avgScore"
+					:authorImage="product.author.photoURL"
 					:id="product.id"
 				/>
 			</v-col>

@@ -3,7 +3,7 @@
 		<v-card class="mx-auto my-5" elevation="3" max-width="400px">
 			<v-card-title class="justify-center">
 				<v-avatar size="100">
-					<v-img :src="user.photoURL"></v-img>
+					<v-img :src="author.photoURL"></v-img>
 				</v-avatar>
 			</v-card-title>
 			<v-card-text class="text-h6 text-center">{{ author.name }}</v-card-text>

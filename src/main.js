@@ -11,11 +11,12 @@ let app = null;
 
 onAuthStateChanged(auth, (user) => {
 	const currentRoute = router.currentRoute;
+
 	if (user) {
 		store.commit("updateUser", user);
 		store.dispatch("fetchFavorites");
-		if (!currentRoute.meta.authReq) {
-			router.push({ name: "Home" });
+		if (currentRoute.meta.authReq) {
+			router.push(currentRoute);
 		}
 	} else {
 		store.commit("updateUser", null);
