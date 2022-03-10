@@ -18,6 +18,9 @@ onAuthStateChanged(auth, (user) => {
 		if (currentRoute.meta.authReq) {
 			router.push(currentRoute);
 		}
+		if (currentRoute.name == "Login") {
+			router.push({ name: "Home" });
+		}
 	} else {
 		store.commit("updateUser", null);
 		store.dispatch("fetchFavorites");

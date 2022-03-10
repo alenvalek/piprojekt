@@ -30,6 +30,14 @@ const routes = [
 		path: "/login",
 		name: "Login",
 		component: SignIn,
+		beforeEnter(to, from, next) { 
+			const isUser = store.getters["user"];
+			if (to.name == "Login" && isUser) {
+				to({ name: "Home" });
+			} else {
+				next();
+			}
+		},
 	},
 	{
 		path: "/dashboard",

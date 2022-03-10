@@ -47,7 +47,10 @@
 									action</v-card-subtitle
 								>
 								<v-card-actions>
-									<v-btn color="error" style="margin: 0 auto;"
+									<v-btn
+										color="error"
+										style="margin: 0 auto;"
+										@click="deleteProduct"
 										>Delete the listing</v-btn
 									>
 								</v-card-actions>
@@ -103,7 +106,17 @@
 </template>
 
 <script>
-import { db, doc, getDoc, collection, onSnapshot } from "@/firebase";
+import {
+	db,
+	doc,
+	getDoc,
+	deleteDoc,
+	deleteObject,
+	collection,
+	onSnapshot,
+	storage,
+	ref,
+} from "@/firebase";
 import { mapGetters } from "vuex";
 import ReviewCard from "@/components/ReviewCard";
 import ReviewForm from "@/components/ReviewForm";
@@ -156,8 +169,14 @@ export default {
 				}
 			);
 		},
-		deleteProduct() {
-			console.log(this.product);
+		async deleteProduct() {
+			const tempProductID = this.id;
+			const tempUserID = this.product.author.uid;
+
+			await deleteDoc(doc(db, "products", tempProductID));
+			const productImageRef = ref(storage, this.product.imageURL);
+			await deleteObject(productImageRef);
+			this.$router.go({ name: "Home" });
 		},
 	},
 };
