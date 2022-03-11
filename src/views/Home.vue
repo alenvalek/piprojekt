@@ -4,8 +4,11 @@
 			<v-col cols="6">
 				<Form />
 			</v-col>
-			<v-col cols="6">
+			<v-col v-if="!showingFavorites" cols="6">
 				<v-btn color="primary" @click="showFavorites">Show favorites</v-btn>
+			</v-col>
+			<v-col v-else cols="6">
+				<v-btn color="primary" @click="showFavorites">Show all posts</v-btn>
 			</v-col>
 		</v-row>
 		<v-row wrap>
@@ -59,6 +62,7 @@ export default {
 	},
 	mounted() {
 		this.getListings();
+		this.loading = false;
 	},
 	components: {
 		Form,

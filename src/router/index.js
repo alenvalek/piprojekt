@@ -6,6 +6,7 @@ import SignIn from "../views/SignIn.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Contracts from "../views/Contracts.vue";
 import EditProfile from "../views/EditProfile.vue";
+import EditProduct from "../views/EditProduct.vue";
 import Info from "../views/Info.vue";
 import Payment from "../views/Payment.vue";
 import store from "@/store";
@@ -30,7 +31,7 @@ const routes = [
 		path: "/login",
 		name: "Login",
 		component: SignIn,
-		beforeEnter(to, from, next) { 
+		beforeEnter(to, from, next) {
 			const isUser = store.getters["user"];
 			if (to.name == "Login" && isUser) {
 				to({ name: "Home" });
@@ -67,6 +68,14 @@ const routes = [
 		path: "/product/:pid",
 		name: "Info",
 		component: Info,
+		meta: {
+			authReq: true,
+		},
+	},
+	{
+		path: "/product/:pid/edit",
+		name: "EditProduct",
+		component: EditProduct,
 		meta: {
 			authReq: true,
 		},
