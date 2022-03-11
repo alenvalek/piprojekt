@@ -1,5 +1,6 @@
 <template>
 	<v-container class="mt-5">
+		<v-alert v-if="alert" type="success">Product updated successfully</v-alert>
 		<v-row align="center" justify="center">
 			<v-col v-if="!product && loading" cols="12" sm="12" md="8">
 				<v-container fill-height>
@@ -67,6 +68,7 @@ export default {
 	data() {
 		return {
 			loading: true,
+			alert: false,
 			id: this.$route.params.pid,
 			product: null,
 			updatedAt: null,
@@ -112,6 +114,8 @@ export default {
 				updatedAt: Date.now(),
 			});
 			await this.fetchProductInfo();
+			this.alert = true;
+			setTimeout(() => (this.alert = false), 3000);
 		},
 	},
 };
