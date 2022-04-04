@@ -7,6 +7,7 @@ import Dashboard from "../views/Dashboard.vue";
 import Contracts from "../views/Contracts.vue";
 import EditProfile from "../views/EditProfile.vue";
 import EditProduct from "../views/EditProduct.vue";
+import Profile from "../views/Profile.vue";
 import Info from "../views/Info.vue";
 import Payment from "../views/Payment.vue";
 import store from "@/store";
@@ -76,6 +77,14 @@ const routes = [
 		path: "/product/:pid/edit",
 		name: "EditProduct",
 		component: EditProduct,
+		meta: {
+			authReq: true,
+		},
+	},
+	{
+		path: "/user/:uid",
+		name: "Profile",
+		component: Profile,
 		meta: {
 			authReq: true,
 		},
