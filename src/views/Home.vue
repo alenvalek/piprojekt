@@ -4,10 +4,10 @@
 			<v-col cols="6">
 				<Form />
 			</v-col>
-			<v-col v-if="!showingFavorites" cols="6">
+			<v-col align="right" v-if="!showingFavorites" cols="6">
 				<v-btn color="primary" @click="showFavorites">Show favorites</v-btn>
 			</v-col>
-			<v-col v-else cols="6">
+			<v-col align="right" v-else cols="6">
 				<v-btn color="primary" @click="showFavorites">Show all posts</v-btn>
 			</v-col>
 		</v-row>
