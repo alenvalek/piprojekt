@@ -136,6 +136,7 @@ import {
 	getDownloadURL,
 	deleteObject,
 	getDocs,
+	updateDoc,
 } from "@/firebase";
 import { v4 as uuid } from "uuid";
 import { mapGetters, mapMutations } from "vuex";
@@ -213,6 +214,7 @@ export default {
 			}
 
 			if (this.selectedImage) {
+				const userRef = await doc(db, "users", userID);
 				const imageName = uuid();
 				const storageRef = ref(
 					storage,
@@ -223,6 +225,10 @@ export default {
 				const downloadURL = await getDownloadURL(storageRef);
 
 				await updateProfile(currentUser, {
+					photoURL: downloadURL,
+				});
+
+				await updateDoc(userRef, {
 					photoURL: downloadURL,
 				});
 				this.notify({
