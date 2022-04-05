@@ -1,12 +1,14 @@
 <template>
-	<v-container class="d-flex justify-center align-center mt-5">
+	<v-container
+		v-if="this.fullName && !this.loading"
+		class="d-flex justify-center align-center mt-5"
+	>
 		<v-card
 			:elevation="5"
 			class="py-5"
 			max-width="1000px"
 			align="center"
 			justify="center"
-			v-if="this.fullName && !this.loading"
 		>
 			<v-row>
 				<v-col cols="12">
@@ -44,10 +46,18 @@
 				</v-col>
 			</v-row>
 		</v-card>
-		<v-row v-else-if="!fullName && loading">
-			<v-progress-circular></v-progress-circular>
+	</v-container>
+	<v-container v-else-if="!fullName && loading" fill-height>
+		<v-row align="center" justify="center">
+			<v-progress-circular
+				:size="100"
+				indeterminate
+				color="primary"
+			></v-progress-circular>
 		</v-row>
-		<v-row v-else>
+	</v-container>
+	<v-container class="d-flex justify-center align-center mt-5" v-else>
+		<v-row>
 			<v-col cols="12">
 				<v-alert type="warning"
 					>User you are searching for is nowhere to be found.</v-alert
@@ -89,7 +99,7 @@ export default {
 			photoURL: "",
 			loading: true,
 			hearts: 0,
-			productCount: 0,
+			productCount: "",
 		};
 	},
 	mounted() {

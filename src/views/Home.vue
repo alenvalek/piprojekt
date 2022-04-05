@@ -20,7 +20,7 @@
 					:location="product.location"
 					:imageURL="product.imageURL"
 					:avgScore="product.avgScore"
-					:authorImage="product.author.photoURL"
+					:authorImage="product.imageURL"
 					:id="product.id"
 				/>
 			</v-col>
@@ -101,6 +101,9 @@ export default {
 					const reviews = await getDocs(
 						collection(docRef(collection(db, "products"), doc.id), "reviews")
 					);
+					const userData = await getDoc(
+						docRef(db, "users", doc.data().author.uid)
+					);
 					let reviewAmount = reviews.size;
 					let reviewSum = 0;
 					if (reviews.size > 0) {
@@ -111,17 +114,18 @@ export default {
 						rating = Math.round(rating * 10) / 10;
 					}
 					this.loading = false;
-					products.push({ id: doc.id, avgScore: rating, ...doc.data() });
+					products.push({
+						id: doc.id,
+						avgScore: rating,
+						imageURL:
+							userData.photoURL ||
+							"https://i.pinimg.com/474x/20/0d/72/200d72a18492cf3d7adac8a914ef3520.jpg",
+						...doc.data(),
+					});
 				});
 				this.products = products;
 			});
 		},
 	},
 };
-//  id: String,
-//   title: String,
-//   description: String,
-//   location: String,
-//   price: Number,
-//   liked: Boolean,
 </script>
