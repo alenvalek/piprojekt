@@ -3,6 +3,9 @@
 		<v-form justify="center" align="center" class="mb-10">
 			<v-row justify="center" class="mt-10">
 				<v-col md="4" sm="9" xsm="9">
+					<v-alert type="error" v-if="error">
+						{{ error }}
+					</v-alert>
 					<h2 class="text-center">Create an account</h2>
 					<v-text-field
 						name="firstName"
@@ -107,10 +110,6 @@
 				</h2>
 			</v-col>
 		</v-row>
-
-		<v-alert type="error" v-if="error">
-			{{ error }}
-		</v-alert>
 	</v-container>
 </template>
 <script>
@@ -158,6 +157,24 @@ export default {
 			this.date = null;
 		},
 		async signUpUser() {
+			if (
+				!this.firstName ||
+				!this.lastName ||
+				!this.email ||
+				!this.password ||
+				!this.passwordConfirm
+			) {
+				return (this.error = "All fields must be filled out");
+			}
+
+			if (this.password != this.passwordConfirm) {
+				return (this.error = "Passwords do not match");
+			}
+
+			if (!this.checkbox) {
+				return (this.error = "You must agree to the TOS");
+			}
+
 			try {
 				const res = await createUserWithEmailAndPassword(
 					auth,
@@ -187,6 +204,7 @@ export default {
 				this.clearForm();
 			} catch (error) {
 				console.log(error);
+				this.error = error;
 				this.clearForm();
 			}
 		},

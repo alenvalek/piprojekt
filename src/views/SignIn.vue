@@ -3,6 +3,7 @@
 		<v-form>
 			<v-row justify="center" class="mt-10">
 				<v-col md="4" sm="9" xsm="9">
+					<v-alert v-if="error" type="error">{{ error }}</v-alert>
 					<h2 class="text-center">Sign In</h2>
 					<v-text-field
 						name="email"
@@ -51,6 +52,7 @@ export default {
 		return {
 			email: "",
 			password: "",
+			error: "",
 		};
 	},
 	methods: {
@@ -58,6 +60,7 @@ export default {
 			try {
 				await signInWithEmailAndPassword(auth, this.email, this.password);
 			} catch (error) {
+				this.error = error.message;
 				console.log(error.message);
 				console.log(error.code);
 			}
