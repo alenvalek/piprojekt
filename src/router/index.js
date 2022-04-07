@@ -90,7 +90,7 @@ const routes = [
 		},
 	},
 	{
-		path: "/process_payment",
+		path: "/process_payment/:pid",
 		name: "Payment",
 		component: Payment,
 		meta: {

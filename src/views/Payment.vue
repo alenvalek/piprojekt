@@ -6,6 +6,20 @@
 					Process Payment
 				</div>
 			</v-col>
+			<v-col v-if="product" align="center" justify="center" :cols="6">
+				<v-card :elevation="2" class="pb-5" width="550px">
+					<img
+						style="width: 100%"
+						:src="product.imageURL"
+						:alt="product.name"
+					/>
+					<v-card-title>{{ product.title }}</v-card-title>
+					<v-card-subtitle>X 1</v-card-subtitle>
+					<div class="text-h5 font-weight-bold">
+						Price: {{ product.price }}$
+					</div>
+				</v-card>
+			</v-col>
 			<v-row>
 				<v-col align="center" justify="center" :cols="12">
 					<v-card
@@ -144,6 +158,7 @@
 					<v-alert v-if="allFieldsError" class="mt-3" type="error"
 						>All fields must be filled out</v-alert
 					>
+					<v-btn @click="debug">Click me</v-btn>
 				</v-form>
 			</v-col>
 		</v-row>
@@ -151,10 +166,13 @@
 </template>
 
 <script>
+import { doc, getDoc, db } from "@/firebase";
+
 export default {
 	name: "Payment",
 	data() {
 		return {
+			product: null,
 			cardNumber: "",
 			rawCardNumber: "",
 			errorMessage: "",
@@ -177,9 +195,25 @@ export default {
 			cardNumberHash: "",
 			previousCharacterCount: 0,
 			allFieldsError: false,
+			productID: this.$route.params.pid,
 		};
 	},
+	mounted() {
+		this.getProductInfo();
+	},
 	methods: {
+		debug() {
+			console.log(this.product);
+		},
+		async getProductInfo() {
+			try {
+				const docRef = doc(db, "products", this.productID);
+				const docSnap = await getDoc(docRef);
+				this.product = docSnap.data();
+			} catch (error) {
+				console.log(error);
+			}
+		},
 		async orderProduct() {
 			if (
 				!this.cardNumber ||
@@ -200,9 +234,6 @@ export default {
 			this.$refs.menu.save(date);
 			this.dateString = this.cardDate.replace("-", " / ");
 			this.dateString = this.dateString.slice(2);
-		},
-		debug() {
-			console.log(this.rawCardNumber);
 		},
 		validateCardNumber(number) {
 			const regex = new RegExp("^[0-9]{13,19}$");
