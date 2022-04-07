@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import SignUp from "../views/SignUp.vue";
+import tos from "../views/tos.vue";
 import SignIn from "../views/SignIn.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Contracts from "../views/Contracts.vue";
@@ -27,6 +28,11 @@ const routes = [
 		path: "/register",
 		name: "Register",
 		component: SignUp,
+	},
+	{
+		path: "/tos",
+		name: "tos",
+		component: tos,
 	},
 	{
 		path: "/login",
