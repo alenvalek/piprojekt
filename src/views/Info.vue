@@ -19,7 +19,7 @@
 						<div class="mx-5 my-5">
 							<span class="text-h5 mx-2">{{ product.author.displayName }}</span>
 							<v-avatar size="50">
-								<img :src="product.author.photoURL" alt="user" />
+								<img v-if="author" :src="author.photoURL" alt="user" />
 							</v-avatar>
 						</div>
 					</v-layout>
@@ -96,6 +96,7 @@
 		<review-form
 			v-if="user && product"
 			:hasReviewed="userAlreadyReviewed"
+			:uid="product.author.uid"
 			class="my-5"
 		/>
 		<v-row justify="center" align="center" v-if="product">
@@ -137,6 +138,7 @@ export default {
 			product: null,
 			id: this.$route.params.pid,
 			reviews: [],
+			author: null,
 		};
 	},
 	mounted() {
@@ -169,6 +171,9 @@ export default {
 			const docRef = doc(db, "products", this.id);
 			const docSnap = await getDoc(docRef);
 			this.product = docSnap.data();
+			const authorRef = doc(db, "users", this.product.author.uid);
+			const authorData = await getDoc(authorRef);
+			this.author = authorData.data();
 		},
 		getProductReviews() {
 			onSnapshot(

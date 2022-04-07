@@ -99,6 +99,7 @@ export default {
 				city: "",
 				region: "",
 				zip: "",
+				country: "",
 				adressLine: "",
 			},
 			image: null,
@@ -113,6 +114,18 @@ export default {
 		}),
 	},
 	methods: {
+		clearForm() {
+			this.title = "";
+			this.description = "";
+			this.location.city = "";
+			this.location.region = "";
+			this.location.zip = "";
+			this.location.adressLine = "";
+			this.location.country = "";
+			this.imageURL = "";
+			this.iamge = null;
+			this.price = 0;
+		},
 		async addNewListing() {
 			const newProduct = {
 				title: this.title,
@@ -158,12 +171,6 @@ export default {
 		},
 	},
 };
-//   id: String,
-//   title: String,
-//   description: String,
-//   location: String,
-//   price: Number,
-//   liked: Boolean,
 </script>
 
 <style></style>

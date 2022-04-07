@@ -44,7 +44,10 @@
 									</v-col>
 								</v-row>
 								<v-col cols="12">
-									<div class="text-h5" style="border: 3px solid black;">
+									<div
+										class="text-h5"
+										style="border: 3px solid black; background-color: rgb(240, 240, 240); color: rgb(90, 90, 90)"
+									>
 										{{
 											cardNumberHash
 												? cardNumberHash
