@@ -20,7 +20,7 @@
 					:location="product.location"
 					:imageURL="product.imageURL"
 					:avgScore="product.avgScore"
-					:authorImage="product.imageURL"
+					:authorImage="product.authorImageURL"
 					:id="product.id"
 				/>
 			</v-col>
@@ -101,9 +101,10 @@ export default {
 					const reviews = await getDocs(
 						collection(docRef(collection(db, "products"), doc.id), "reviews")
 					);
-					const userData = await getDoc(
+					const userRef = await getDoc(
 						docRef(db, "users", doc.data().author.uid)
 					);
+					const userData = userRef.data();
 					let reviewAmount = reviews.size;
 					let reviewSum = 0;
 					if (reviews.size > 0) {
@@ -117,7 +118,7 @@ export default {
 					products.push({
 						id: doc.id,
 						avgScore: rating,
-						imageURL:
+						authorImageURL:
 							userData.photoURL ||
 							"https://i.pinimg.com/474x/20/0d/72/200d72a18492cf3d7adac8a914ef3520.jpg",
 						...doc.data(),

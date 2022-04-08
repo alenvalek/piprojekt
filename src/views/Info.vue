@@ -106,6 +106,8 @@
 				:author="review.author"
 				:body="review.body"
 				:rating="review.rating"
+				:uid="review.author.uid"
+				:authorImage="review.authorImage"
 			/>
 		</v-row>
 	</v-container>
@@ -159,6 +161,9 @@ export default {
 		},
 	},
 	methods: {
+		debug() {
+			console.log(this.reviews);
+		},
 		navigateToEditPage() {
 			if (this.product) {
 				this.$router.push({
@@ -180,9 +185,19 @@ export default {
 				collection(doc(collection(db, "products"), this.id), "reviews"),
 				(snapshot) => {
 					const reviews = [];
-					snapshot.forEach((doc) => {
-						reviews.push({ id: doc.id, ...doc.data() });
+					snapshot.forEach(async (docSnap) => {
+						const userRef = await getDoc(
+							doc(db, "users", docSnap.data().author.uid)
+						);
+						const userData = userRef.data();
+
+						reviews.push({
+							id: docSnap.id,
+							authorImage: userData.photoURL,
+							...docSnap.data(),
+						});
 					});
+
 					this.reviews = reviews;
 				}
 			);
