@@ -1,22 +1,22 @@
 <template>
 	<v-container class="mt-5" ref="pageContainer">
-		<v-row>
+		<v-row justify="center" align="center">
 			<v-col :cols="12">
 				<div class="purple--text text-h3 font-weight-bold">
 					Process Payment
 				</div>
 			</v-col>
-			<v-col v-if="product" align="center" justify="center" :cols="6">
+			<v-col v-if="product" align="center" justify="center" :md="6" :xs="12">
 				<v-card :elevation="2" class="pb-5" width="550px">
 					<img
 						style="width: 100%"
 						:src="product.imageURL"
-						:alt="product.name"
+						:alt="product.title"
 					/>
 					<v-card-title>{{ product.title }}</v-card-title>
 					<v-card-subtitle>X 1</v-card-subtitle>
 					<div class="text-h5 font-weight-bold">
-						Price: {{ product.price }}$
+						Price: {{ product.price * rentingPeriod }}$
 					</div>
 				</v-card>
 			</v-col>
@@ -30,7 +30,7 @@
 						d-flex
 						justify-start
 						column
-						class="white--text m-1"
+						class="white--text"
 						rounded="lg"
 					>
 						<v-container>
@@ -87,7 +87,19 @@
 		</v-row>
 		<v-row>
 			<v-col :cols="12">
-				<v-form align="center" justify="center">
+				<v-form ref="form" align="center" justify="center">
+					<v-text-field
+						label="Renting period ( in days )"
+						v-model="rentingPeriod"
+						required
+						:rules="[
+							(period) =>
+								(period && period > 0) || 'One day is a minimum renting period',
+						]"
+						clearable
+						type="number"
+						append-icon="mdi-calendar"
+					></v-text-field>
 					<v-text-field
 						label="Credit Card Number"
 						v-model="cardNumber"
@@ -146,9 +158,9 @@
 						name="city"
 					></v-text-field>
 					<v-text-field
-						v-model="buyerData.address.street"
-						label="Street"
-						name="street"
+						v-model="buyerData.address.addressLine"
+						label="Address line"
+						name="address"
 					></v-text-field>
 					<v-text-field
 						v-model="buyerData.address.zip"
@@ -161,7 +173,7 @@
 					<v-alert v-if="allFieldsError" class="mt-3" type="error"
 						>All fields must be filled out</v-alert
 					>
-					<v-btn @click="debug">Click me</v-btn>
+					<!-- <v-btn @click="debug">Click me</v-btn> -->
 				</v-form>
 			</v-col>
 		</v-row>
@@ -169,7 +181,8 @@
 </template>
 
 <script>
-import { doc, getDoc, db } from "@/firebase";
+import { doc, getDoc, db, addDoc, collection } from "@/firebase";
+import { mapGetters } from "vuex";
 
 export default {
 	name: "Payment",
@@ -177,6 +190,7 @@ export default {
 		return {
 			product: null,
 			cardNumber: "",
+			rentingPeriod: 1,
 			rawCardNumber: "",
 			errorMessage: "",
 			isNotValid: false,
@@ -184,7 +198,7 @@ export default {
 				firstName: "",
 				lastName: "",
 				address: {
-					street: "",
+					addressLine: "",
 					zip: "",
 					country: "",
 					city: "",
@@ -203,6 +217,9 @@ export default {
 	},
 	mounted() {
 		this.getProductInfo();
+	},
+	computed: {
+		...mapGetters({ currentUser: "user" }),
 	},
 	methods: {
 		debug() {
@@ -223,14 +240,44 @@ export default {
 				!this.buyerData.firstName ||
 				!this.buyerData.lastName ||
 				!this.buyerData.lastName ||
-				!this.buyerData.address.street ||
+				!this.buyerData.address.addressLine ||
 				!this.buyerData.address.country ||
 				!this.buyerData.address.zip ||
-				!this.buyerData.address.city
+				!this.buyerData.address.city ||
+				!this.rentingPeriod ||
+				this.rentingPeriod < 1
 			) {
 				this.allFieldsError = true;
 			} else {
 				this.allFieldsError = false;
+				if (this.isNotValid) return;
+				try {
+					const contractRef = await addDoc(collection(db, "contracts"), {
+						buyer: this.currentUser.uid,
+						seller: this.product.author.uid,
+						rentingPeriod: this.rentingPeriod,
+						deliveryAdress: {
+							city: this.buyerData.address.city,
+							adressLine: this.buyerData.address.addressLine,
+							zip: this.buyerData.address.zip,
+						},
+						hasBeenSent: false,
+						hasBeenReceived: false,
+						hasBeenReturned: false,
+					});
+					const notificationRef = await addDoc(
+						collection(db, "notifications"),
+						{
+							user: this.product.author.uid,
+							msg: `An order has been placed for ${this.product.title} for period of ${this.rentingPeriod} days.`,
+							opened: false,
+						}
+					);
+					this.$refs.form.reset();
+				} catch (error) {
+					console.log(error);
+					this.$refs.form.reset();
+				}
 			}
 		},
 		save(date) {
@@ -246,6 +293,8 @@ export default {
 
 			return this.luhnCheck(number);
 		},
+		// code ref: https://stackoverflow.com/questions/12310837/implementation-of-luhn-algorithm
+		// good testing value: 0000-0000-0000-0000
 		luhnCheck(val) {
 			let checksum = 0; // running checksum total
 			let j = 1; // takes value of 1 or 2
@@ -283,6 +332,9 @@ export default {
 		},
 		cardNumber() {
 			this.cardNumberHash = "";
+			if (!this.cardNumber) {
+				this.cardNumber = "";
+			}
 			if (this.cardNumber) {
 				for (let i = 0; i < this.cardNumber.length; i++) {
 					if (
@@ -307,9 +359,7 @@ export default {
 			}
 			this.rawCardNumber = this.cardNumber.replace(/-/g, "");
 			if (this.rawCardNumber.length == 16) {
-				if (this.validateCardNumber(this.rawCardNumber)) {
-					console.log("Validno");
-				} else {
+				if (!this.validateCardNumber(this.rawCardNumber)) {
 					this.errorMessage = "Not a valid card number";
 					this.isNotValid = true;
 					console.log("Nije validno");

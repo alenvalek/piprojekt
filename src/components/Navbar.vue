@@ -71,12 +71,6 @@
 						</v-list-item-icon>
 						<v-list-item-title class="text-h6">Contracts</v-list-item-title>
 					</v-list-item>
-					<v-list-item v-if="user" :to="{ name: 'Payment' }" class="my-2 py-2">
-						<v-list-item-icon>
-							<v-icon large>mdi-currency-usd</v-icon>
-						</v-list-item-icon>
-						<v-list-item-title class="text-h6">Payment</v-list-item-title>
-					</v-list-item>
 				</v-list-item-group>
 			</v-list>
 		</v-navigation-drawer>

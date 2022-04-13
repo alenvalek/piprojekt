@@ -1,13 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import {
-	doc,
-	db,
-	arrayUnion,
-	arrayRemove,
-	getDoc,
-	updateDoc,
-} from "@/firebase";
+import { doc, db, getDoc } from "@/firebase";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
