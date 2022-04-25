@@ -16,7 +16,11 @@
 								{{ product.description }}
 							</v-card-text>
 						</div>
-						<div class="mx-5 my-5">
+						<div
+							class="mx-5 my-5"
+							style="cursor: pointer;"
+							@click="redirectToAuthorProfile"
+						>
 							<span class="text-h5 mx-2">{{ product.author.displayName }}</span>
 							<v-avatar size="50">
 								<img v-if="author" :src="author.photoURL" alt="user" />
@@ -211,6 +215,12 @@ export default {
 				await deleteObject(productImageRef);
 			}
 			this.$router.push({ name: "Home" });
+		},
+		redirectToAuthorProfile() {
+			this.$router.push({
+				name: "Profile",
+				params: { uid: this.product.author.uid },
+			});
 		},
 	},
 };

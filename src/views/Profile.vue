@@ -24,7 +24,7 @@
 				</v-col>
 				<v-col cols="4" class="mt-3">
 					<v-icon x-large color="orange darken-1">mdi-currency-eur</v-icon>
-					<div class="text-h5">Products sold: 6</div>
+					<div class="text-h5">Products sold: {{ productsSold }}</div>
 				</v-col>
 				<v-col cols="4" class="mt-3">
 					<v-icon x-large color="red">mdi-heart</v-icon>
@@ -93,13 +93,13 @@ export default {
 	data() {
 		return {
 			heartSent: false,
-			heartCount: 0,
 			fullName: "",
 			bio: "",
 			photoURL: "",
 			loading: true,
-			hearts: 0,
+			heartCount: 0,
 			productCount: "",
+			productsSold: 0,
 		};
 	},
 	mounted() {
@@ -119,7 +119,7 @@ export default {
 					this.bio = userData.bio || "No bio yet..";
 					this.photoURL = userData.photoURL;
 					if (userData.hearts) {
-						this.hearts = userData.hearts.length;
+						this.heartCount = userData.hearts ? userData.hearts.length : 0;
 
 						if (userData.hearts.includes(this.currentUser.uid)) {
 							this.heartSent = true;
@@ -127,15 +127,20 @@ export default {
 							this.heartSent = false;
 						}
 					}
-					this.hearts = 0;
+					console.log(userData);
+
 					this.loading = false;
+					console.log(this.hearts);
 				}
-				console.log("hehehehe");
 				const prodRef = collection(db, "products");
 				const q = query(prodRef, where("author.uid", "==", userID));
 				const prodData = await getDocs(q);
-				console.log(prodData);
 				this.productCount = prodData.size || 0;
+				const contracts = collection(db, "contracts");
+				const q2 = query(contracts, where("seller.uid", "==", userID));
+				const contractData = await getDocs(q2);
+
+				this.productsSold = contractData.size || 0;
 			} catch (error) {
 				console.log(error);
 				this.loading = false;
