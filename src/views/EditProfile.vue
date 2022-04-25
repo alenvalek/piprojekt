@@ -47,6 +47,9 @@
 					Security
 				</div>
 				<v-form>
+					<div class="ml-3">
+						Your password can't be changed due to security reasons
+					</div>
 					<v-text-field
 						class="mt-5"
 						outlined
