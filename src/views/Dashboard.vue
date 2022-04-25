@@ -113,7 +113,6 @@
 						<tr>
 							<th class="text-left">Product Name</th>
 							<th class="text-left">Product Description</th>
-							<th class="text-left">Rented</th>
 							<th></th>
 							<th></th>
 						</tr>
@@ -124,7 +123,6 @@
 							<td>
 								{{ listing.description }}
 							</td>
-							<td>No</td>
 							<td>
 								<v-dialog max-width="fit-content">
 									<template v-slot:activator="{ on, attrs }">
