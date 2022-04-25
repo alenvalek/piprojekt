@@ -12,7 +12,14 @@
 		>
 			<v-row>
 				<v-col cols="12">
-					<img class="pfp" :src="photoURL" alt="profile_pic" />
+					<img
+						class="pfp"
+						:src="
+							photoURL ||
+								'https://i.pinimg.com/474x/20/0d/72/200d72a18492cf3d7adac8a914ef3520.jpg'
+						"
+						alt="profile_pic"
+					/>
 				</v-col>
 				<v-col cols="12">
 					<div class="text-h3 font-weight-medium">{{ fullName }}</div>

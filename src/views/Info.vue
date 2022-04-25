@@ -23,7 +23,14 @@
 						>
 							<span class="text-h5 mx-2">{{ product.author.displayName }}</span>
 							<v-avatar size="50">
-								<img v-if="author" :src="author.photoURL" alt="user" />
+								<img
+									v-if="author"
+									:src="
+										author.photoURL ||
+											'https://i.pinimg.com/474x/20/0d/72/200d72a18492cf3d7adac8a914ef3520.jpg'
+									"
+									alt="user"
+								/>
 							</v-avatar>
 						</div>
 					</v-layout>

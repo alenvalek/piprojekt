@@ -202,6 +202,7 @@ export default {
 				console.log(userProfile);
 
 				this.clearForm();
+				this.$router.push({ name: "Home" });
 			} catch (error) {
 				console.log(error);
 				this.error = error;

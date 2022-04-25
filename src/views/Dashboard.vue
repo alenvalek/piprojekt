@@ -25,14 +25,37 @@
 						<v-icon left>mdi-account-tie</v-icon>
 						View Contracts
 					</v-btn>
-					<v-btn
-						@click="deleteAccount"
-						class="mt-5 mr-5 px-5 py-xs-5"
-						color="error"
-					>
-						<v-icon left>mdi-account-minus</v-icon>
-						Delete my account
-					</v-btn>
+					<v-dialog max-width="fit-content">
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn
+								v-bind="attrs"
+								v-on="on"
+								class="mt-5 mr-5 px-5 py-xs-5"
+								color="error"
+							>
+								<v-icon left>mdi-account-minus</v-icon>
+								Delete my account
+							</v-btn>
+						</template>
+						<v-card>
+							<v-card-title>
+								Are you sure you want to delete this account? Once you delete
+								your account there is <span>no going back</span>!
+							</v-card-title>
+							<v-card-subtitle style="text-align: center;"
+								>Click anywhere outside this window to cancel the
+								action</v-card-subtitle
+							>
+							<v-card-actions>
+								<v-btn
+									color="error"
+									style="margin: 0 auto;"
+									@click="deleteAccount"
+									>Delete account</v-btn
+								>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
 				</v-layout>
 			</v-col>
 			<v-col cols="6" md="2">

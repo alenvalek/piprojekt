@@ -1,5 +1,5 @@
 <template>
-	<v-col cols="3">
+	<v-col xs="12" md="3">
 		<v-card class="mx-auto my-5" elevation="3" max-width="400px">
 			<v-card-title class="justify-center">
 				<v-avatar size="100">
