@@ -3,7 +3,7 @@
 		<v-app-bar v-if="!user" app dark color="purple darken-2">
 			<a class="skip-nav-link" href="#main">skip navigation</a>
 			<v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-			<v-btn text :to="{ name: 'Home' }" class="no-active">Rentara</v-btn>
+			<v-btn text :to="{ name: 'Home' }" class="no-active">RentIO</v-btn>
 			<v-spacer></v-spacer>
 			<v-btn text class="mx-5 no-active" :to="{ name: 'Login' }">Login</v-btn>
 			<v-btn
@@ -16,7 +16,7 @@
 		<v-app-bar v-else app dark color="purple darken-2">
 			<a class="skip-nav-link" href="#main">skip navigation</a>
 			<v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-			<v-btn text :to="{ name: 'Home' }" class="no-active">Rentara</v-btn>
+			<v-btn text :to="{ name: 'Home' }" class="no-active">RentIO</v-btn>
 			<v-spacer></v-spacer>
 			<v-badge
 				bordered
