@@ -10,6 +10,7 @@ import EditProduct from "../views/EditProduct.vue";
 import Profile from "../views/Profile.vue";
 import Info from "../views/Info.vue";
 import Payment from "../views/Payment.vue";
+import OrderPlaced from "../views/OrderPlaced.vue";
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -91,6 +92,14 @@ const routes = [
 		path: "/process_payment/:pid",
 		name: "Payment",
 		component: Payment,
+		meta: {
+			authReq: true,
+		},
+	},
+	{
+		path: "/thanks",
+		name: "Thanks",
+		component: OrderPlaced,
 		meta: {
 			authReq: true,
 		},

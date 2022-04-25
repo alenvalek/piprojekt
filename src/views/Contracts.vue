@@ -117,11 +117,9 @@ export default {
 				let arr = [];
 				contractsSnapshotBuyer.forEach((contract) => {
 					arr.push({ id: contract.id, ...contract.data() });
-					console.log(contract.data());
 				});
 				contractsSnapshotSeller.forEach((contract) => {
 					arr.push({ id: contract.id, ...contract.data() });
-					console.log(contract.data());
 				});
 				this.contracts = arr;
 			} catch (error) {

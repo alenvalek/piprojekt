@@ -253,8 +253,6 @@ export default {
 			try {
 				const oldImage = ref(storage, currentUser.photoURL);
 
-				console.log(oldImage);
-				console.log("I'm here");
 				await deleteObject(oldImage);
 			} catch (error) {
 				console.log("");

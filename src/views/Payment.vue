@@ -275,6 +275,7 @@ export default {
 						}
 					);
 					this.$refs.form.reset();
+					this.$router.push({ name: "Thanks" });
 				} catch (error) {
 					console.log(error);
 					this.$refs.form.reset();

@@ -75,12 +75,6 @@ export default {
 			description: "",
 			price: 0,
 			title: "",
-			// location: {
-			// 	adressLine: "",
-			// 	city: "",
-			// 	country: "",
-			// 	region: "",
-			// },
 		};
 	},
 	async mounted() {
