@@ -255,6 +255,7 @@ export default {
 					const contractRef = await addDoc(collection(db, "contracts"), {
 						buyer: this.currentUser.uid,
 						seller: this.product.author.uid,
+						product: this.product.title,
 						rentingPeriod: this.rentingPeriod,
 						deliveryAdress: {
 							city: this.buyerData.address.city,

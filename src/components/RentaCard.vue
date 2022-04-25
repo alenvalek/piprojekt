@@ -47,6 +47,7 @@
 			</v-row>
 		</v-card-text>
 		<v-btn
+			v-if="user.uid !== authorID"
 			:to="{
 				name: 'Payment',
 				params: {
@@ -57,6 +58,9 @@
 			class="white--text"
 			width="100%"
 			>Rent</v-btn
+		>
+		<v-btn v-else disabled color="purple" class="white--text" width="100%"
+			>Can't rent own product</v-btn
 		>
 	</v-card>
 </template>
@@ -79,6 +83,9 @@ export default {
 			loaded: false,
 		};
 	},
+	mounted() {
+		console.log(this.seller);
+	},
 	computed: {
 		...mapGetters({ user: "user", favorites: "favorites" }),
 		isFavorite() {
@@ -91,6 +98,7 @@ export default {
 	},
 	props: {
 		id: String,
+		authorID: String,
 		seller: String,
 		title: String,
 		description: String,

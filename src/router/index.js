@@ -27,18 +27,16 @@ const routes = [
 		path: "/register",
 		name: "Register",
 		component: SignUp,
+		meta: {
+			guestReq: true,
+		},
 	},
 	{
 		path: "/login",
 		name: "Login",
 		component: SignIn,
-		beforeEnter(to, from, next) {
-			const isUser = store.getters["user"];
-			if (to.name == "Login" && isUser) {
-				to({ name: "Home" });
-			} else {
-				next();
-			}
+		meta: {
+			guestReq: true,
 		},
 	},
 	{
@@ -109,6 +107,8 @@ router.beforeEach((to, from, next) => {
 	const noUser = store.getters["user"] == null;
 	if (noUser && to.meta.authReq) {
 		next({ name: "Login" });
+	} else if (!noUser && to.meta.guestReq) {
+		next({ name: "Home" });
 	} else {
 		next();
 	}

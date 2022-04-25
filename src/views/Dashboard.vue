@@ -103,12 +103,39 @@
 							</td>
 							<td>No</td>
 							<td>
-								<v-btn icon color="error">
-									<v-icon>mdi-delete</v-icon>
-								</v-btn>
+								<v-dialog max-width="fit-content">
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn v-bind="attrs" icon color="error" v-on="on">
+											<v-icon>
+												mdi-delete
+											</v-icon>
+										</v-btn>
+									</template>
+									<v-card>
+										<v-card-title>
+											Are you sure you want to delete this listing?
+										</v-card-title>
+										<v-card-subtitle style="text-align: center;"
+											>Click anywhere outside this window to cancel the
+											action</v-card-subtitle
+										>
+										<v-card-actions>
+											<v-btn
+												color="error"
+												style="margin: 0 auto;"
+												@click="deleteProduct(listing.id)"
+												>Delete the listing</v-btn
+											>
+										</v-card-actions>
+									</v-card>
+								</v-dialog>
 							</td>
 							<td>
-								<v-btn icon color="warning">
+								<v-btn
+									:to="{ name: 'EditProduct', params: { pid: listing.id } }"
+									icon
+									color="warning"
+								>
 									<v-icon>mdi-pen</v-icon>
 								</v-btn>
 							</td>
@@ -135,8 +162,10 @@ import {
 	uploadBytes,
 	getDownloadURL,
 	deleteObject,
+	deleteDoc,
 	getDocs,
 	updateDoc,
+	deleteUser,
 } from "@/firebase";
 import { v4 as uuid } from "uuid";
 import { mapGetters, mapMutations } from "vuex";
@@ -159,6 +188,14 @@ export default {
 	},
 	methods: {
 		...mapMutations({ notify: "notify" }),
+		async deleteProduct(tempProductID) {
+			await deleteDoc(doc(db, "products", tempProductID));
+			if (this.product.imageURL) {
+				const productImageRef = ref(storage, this.product.imageURL);
+				await deleteObject(productImageRef);
+			}
+			this.$router.push({ name: "Home" });
+		},
 		async getMyProducts() {
 			try {
 				const productsRef = collection(db, "products");
@@ -179,31 +216,41 @@ export default {
 			}
 		},
 		async deleteAccount() {
-			const currentUser = auth.currentUser;
-			const userID = currentUser.uid;
-			// await deleteUser(currentUser);
-			// await deleteDoc(doc(db, 'users', userID));
-			// await deleteDoc(doc(db, 'products'))
-
-			const userRef = await doc(db, "users", userID);
-			const user = await getDoc(userRef);
-			const userProductsRef = await query(
+			alert("Are you sure");
+			const userID = auth.currentUser.uid;
+			const queryProducts = query(
 				collection(db, "products"),
-				where("author.uid" == userID)
+				where("author.uid", "==", userID)
 			);
 
-			// userProducts.forEach(doc => {
-			//    console.log(doc.data())
-			// });
-			console.log(user.data());
+			const productSnapshots = await getDocs(queryProducts);
+
+			productSnapshots.forEach(async (product) => {
+				if (product.data().imageURL) {
+					let imageRef = ref(storage, product.data().imageURL);
+					await deleteObject(imageRef);
+				}
+				await deleteDoc(product.ref);
+			});
+
+			const user = await getDoc(doc(db, "users", userID));
+			const userData = user.data();
+
+			if (
+				userData.photoURL &&
+				userData.photoURL !==
+					"https://i.pinimg.com/474x/20/0d/72/200d72a18492cf3d7adac8a914ef3520.jpg"
+			) {
+				let profilePicRef = ref(storage, auth.currentUser.photoURL);
+				await deleteObject(profilePicRef);
+			}
+			await deleteUser(auth.currentUser);
 		},
 		async setNewProfilePicture() {
 			const currentUser = auth.currentUser;
 			const userID = currentUser.uid;
 
 			try {
-				const exists = await getDownloadURL(ref(storage, currentUser.photoURL));
-
 				const oldImage = ref(storage, currentUser.photoURL);
 
 				console.log(oldImage);

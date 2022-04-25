@@ -33,11 +33,11 @@
 									@click="updateContracts('sent', contract.id)"
 									>Mark as sent</v-btn
 								>
-								<v-chip v-else color="danger">NOT SENT</v-chip>
+								<v-chip v-else color="error">NOT SENT</v-chip>
 							</td>
 							<td>
 								<v-chip v-if="contract.hasBeenReceived" color="success"
-									>SENT</v-chip
+									>RECEIVED</v-chip
 								>
 								<v-chip v-else-if="!contract.hasBeenSent" color="error"
 									>NOT SENT YET</v-chip
@@ -48,14 +48,14 @@
 											contract.buyer == currentUser.uid
 									"
 									color="primary"
-									@click="updateContracts('returned', contract.id)"
+									@click="updateContracts('received', contract.id)"
 									>Mark as received</v-btn
 								>
 								<v-chip v-else color="error">NOT RECEIVED</v-chip>
 							</td>
 							<td>
 								<v-chip v-if="contract.hasBeenReturned" color="success"
-									>SENT</v-chip
+									>RETURNED</v-chip
 								>
 								<v-btn
 									v-else-if="
@@ -117,9 +117,11 @@ export default {
 				let arr = [];
 				contractsSnapshotBuyer.forEach((contract) => {
 					arr.push({ id: contract.id, ...contract.data() });
+					console.log(contract.data());
 				});
 				contractsSnapshotSeller.forEach((contract) => {
 					arr.push({ id: contract.id, ...contract.data() });
+					console.log(contract.data());
 				});
 				this.contracts = arr;
 			} catch (error) {

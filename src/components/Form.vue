@@ -62,12 +62,23 @@
 						v-model="price"
 					></v-text-field>
 					<v-row justify="center">
-						<v-btn
-							color="primary"
-							class="justify-center"
-							@click.prevent="addNewListing"
-							>Create a listing</v-btn
-						>
+						<v-col cols="12" align="center">
+							<v-btn
+								color="primary"
+								class="justify-center"
+								@click.prevent="addNewListing"
+								>Create a listing</v-btn
+							>
+						</v-col>
+						<v-col cols="12" align="center">
+							<v-alert v-if="errorVisible" type="error"
+								>All fields must be filled or your fields are too
+								short!</v-alert
+							>
+							<v-alert v-if="successVisible" type="success"
+								>You successfully published a new listing</v-alert
+							>
+						</v-col>
 					</v-row>
 				</v-form>
 			</v-card-text>
@@ -93,6 +104,8 @@ export default {
 	name: "Form",
 	data() {
 		return {
+			errorVisible: false,
+			successVisible: false,
 			title: "",
 			description: "",
 			location: {
@@ -123,10 +136,24 @@ export default {
 			this.location.adressLine = "";
 			this.location.country = "";
 			this.imageURL = "";
-			this.iamge = null;
+			this.image = null;
 			this.price = 0;
 		},
 		async addNewListing() {
+			if (
+				this.title.length < 3 ||
+				this.description.length < 3 ||
+				this.location.city.length < 3 ||
+				this.location.region.length < 3 ||
+				this.location.country.length < 3 ||
+				this.location.adressLine.length < 3 ||
+				this.price < 1 ||
+				!this.image
+			) {
+				this.errorVisible = true;
+				this.clearForm();
+				return;
+			}
 			const newProduct = {
 				title: this.title,
 				description: this.description,
@@ -160,6 +187,12 @@ export default {
 				await updateDoc(docRef, {
 					imageURL: downloadUrl,
 				});
+
+				this.successVisible = true;
+				this.clearForm();
+				setTimeout(() => {
+					this.successVisible = false;
+				}, 3000);
 			}
 		},
 		previewImage() {

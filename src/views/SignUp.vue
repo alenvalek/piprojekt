@@ -103,7 +103,7 @@
 				<h2>
 					Already have an account?
 					<span
-						><router-link style="text-decoration: none" to="/login"
+						><router-link style="text-decoration: none" :to="{ name: 'Login' }"
 							>Sign In</router-link
 						></span
 					>

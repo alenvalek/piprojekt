@@ -12,9 +12,13 @@
 			</v-col>
 		</v-row>
 		<v-row wrap>
+			<div class="text-h2" v-if="showingFavorites && products.length < 1">
+				You have no favorite products
+			</div>
 			<v-col cols="12" md="4" v-for="product in products" :key="product.id">
 				<renta-card
 					:title="product.title"
+					:authorID="product.author.uid"
 					:description="product.description"
 					:price="Number(product.price)"
 					:location="product.location"
